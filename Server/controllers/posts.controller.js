@@ -20,7 +20,7 @@ const createPost = asyncErrorHandler(async (req, res, next) => {
     post: {
       text: post.text,
       userId: post.userId,
-      id: post._id
+      postId: post._id
     },
   });
 });
