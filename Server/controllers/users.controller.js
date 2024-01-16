@@ -115,7 +115,11 @@ const logoutUser = asyncErrorHandler(async (req, res, next) => {
   //   return;
   // }
 
-  res.clearCookie("jwt").status(200).json({
+  res.clearCookie("jwt", { 
+    httpOnly: true, 
+    secure: true,
+    sameSite: 'None' 
+  }).status(200).json({
     message: "User logged out",
   });
 });
