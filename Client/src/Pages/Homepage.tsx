@@ -75,7 +75,7 @@ const Homepage = () => {
   const handlePostDelete = async (post: Post) => {
     window.confirm("The post will be deleted permanentely, are you sure?");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const response = await axios.delete("/posts/delete/" + post.postId);
+    await axios.delete("/posts/delete/" + post.postId);
     setAllCurrentUserPosts((prev) =>
       prev.filter((fetchedPost) => post.postId !== fetchedPost.postId)
     );
