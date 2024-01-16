@@ -12,9 +12,11 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+const allowedOrigins = ['http://localhost:5173', 'https://opensay.netlify.app',];
+
 app.use(
   cors({
-    origin: "*",
+    origin: allowedOrigins,
     credentials: true,
   })
 );
