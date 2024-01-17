@@ -3,7 +3,7 @@
 Built with the Reactjs, Nodejs, MongoDB, TypeScript, Javascript & Tailwind
 
 ![Project Image](https://github.com/despot-codA/OpenSay/blob/main/Client/public/Screenshot_LandingPage.png)
-)
+
 
 ## Features
 
