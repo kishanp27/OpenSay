@@ -4,6 +4,7 @@ import { useAuthContext } from "../contexts/useAuthContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaGhost, FaRegTrashAlt } from "react-icons/fa";
+import { BeatLoader } from "react-spinners";
 
 interface Post {
   postId: string;
@@ -16,6 +17,7 @@ const Homepage = () => {
   const [allOtherUserPosts, setAllOtherUserPosts] = useState<Post[]>([]);
   const [allCurrentUserPosts, setAllCurrentUserPosts] = useState<Post[]>([]);
   const [showCurrentUserPosts, setShowCurrentUserPosts] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
@@ -23,63 +25,76 @@ const Homepage = () => {
   }, []);
 
   const getAllUserPosts = async () => {
-    const response = await axios.get("/posts/get-all-posts");
+    try {
+      const response = await axios.get("/posts/get-all-posts");
 
-    const posts = response.data.posts.map((post: Record<string, string>) => {
-      return {
-        text: post.text,
-        userId: post.userId,
-        postId: post._id,
-      };
-    });
+      const posts = response.data.posts.map((post: Record<string, string>) => {
+        return {
+          text: post.text,
+          userId: post.userId,
+          postId: post._id,
+        };
+      });
+      if (currentUser) {
+        const currentUserPosts = posts
+          .filter(
+            (post: Record<string, string>) => post.userId === currentUser.userId
+          )
+          .reverse();
 
-    function shuffleArray(array: Post[]) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        const otherUserPosts = posts.filter(
+          (post: Record<string, string>) => post.userId !== currentUser.userId
+        );
+
+        shuffleArray(otherUserPosts);
+
+        setAllOtherUserPosts(() => {
+          return [...otherUserPosts];
+        });
+        setAllCurrentUserPosts(() => {
+          return [...currentUserPosts];
+        });
       }
-    }
-
-    if (currentUser) {
-      const currentUserPosts = posts
-        .filter(
-          (post: Record<string, string>) => post.userId === currentUser.userId
-        )
-        .reverse();
-
-      const otherUserPosts = posts.filter(
-        (post: Record<string, string>) => post.userId !== currentUser.userId
-      );
-
-      shuffleArray(otherUserPosts);
-
-      setAllOtherUserPosts(() => {
-        return [...otherUserPosts];
-      });
-      setAllCurrentUserPosts(() => {
-        return [...currentUserPosts];
-      });
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  // to randomize the order of the post on the page
+  function shuffleArray(array: Post[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
   const handlePostSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setShowCurrentUserPosts(true);
-    const response = await axios.post("/posts/create", { text: postText });
-    setAllCurrentUserPosts((prev) => {
-      return [response.data.post, ...prev];
-    });
-    setPostText(() => "");
+    try {
+      setIsLoading(true);
+      setShowCurrentUserPosts(true);
+      const response = await axios.post("/posts/create", { text: postText });
+      setAllCurrentUserPosts((prev) => {
+        return [response.data.post, ...prev];
+      });
+      setPostText(() => "");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handlePostDelete = async (post: Post) => {
-    window.confirm("The post will be deleted permanentely, are you sure?");
-    console.log(post);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    await axios.delete("/posts/delete/" + post.postId);
-    setAllCurrentUserPosts((prev) =>
-      prev.filter((fetchedPost) => post.postId !== fetchedPost.postId)
-    );
+    try {
+      window.confirm("The post will be deleted permanentely, are you sure?");
+      await axios.delete("/posts/delete/" + post.postId);
+      setAllCurrentUserPosts((prev) =>
+        prev.filter((fetchedPost) => post.postId !== fetchedPost.postId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (!currentUser) {
@@ -108,7 +123,7 @@ const Homepage = () => {
               className="w-full outline-none bg-slate-100 resize-none p-3"
             ></textarea>
             <button className="px-4 py-2 rounded-xl border mr-3 shadow-lg font-medium text-white bg-blue-500 hover:scale-105 transition-all">
-              Share
+              {isLoading ? <BeatLoader color="white" size={10} /> : "Share"}
             </button>
           </div>
         </form>
