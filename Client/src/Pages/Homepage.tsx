@@ -126,7 +126,7 @@ const Homepage = () => {
         {showCurrentUserPosts &&
           (allCurrentUserPosts.length > 0 ? (
             allCurrentUserPosts.map((post) => (
-              <div key={post.text}>
+              <div key={post.postId}>
                 <div className="h-fit lg:text-[1.1rem] text-[1.2rem] lg:w-3/4 md:w-6/7 w-full border-1 border-slate-400 bg-blue-100 rounded-md mt-8 mx-auto p-3 card shadow-lg">
                   <div className="h-10 w-10 bg-gray-800 flex justify-center items-center rounded-full text-white hover:cursor-pointer hover:scale-125 transition-all hover:text-red-600 mb-2 hover:bg-red-200">
                     <FaRegTrashAlt

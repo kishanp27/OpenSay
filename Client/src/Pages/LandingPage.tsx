@@ -13,14 +13,13 @@ const LandingPage = () => {
       )}
       <div className="py-20 mx-auto text-center flex flex-col items-center max-w-3xl">
         <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-          Your place to let it all out.{" "}
+          Your place to get it off your chest.{" "}
           <span className="text-blue-600 sm:text-6xl text-2xl">
-            Anonymous Confessions 🤫
+            Anonymous Confessions.
           </span>
         </h1>
         <p className="mt-6 text-lg max-w-prose text-muted-foreground">
-          Welcome to OpenSay. Every thing you say is 100% anonymous, no one will
-          know, your place to let it out.
+          Welcome to <span className="font-medium text-blue-700">OpenSay</span> . Every thing you say is 100% anonymous. Your place to let it out.
         </p>
         <p className="text-gray-500 font-medium">*Delete anytime</p>
         {currentUser ? (
