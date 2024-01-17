@@ -47,7 +47,7 @@ const OAuth = ({
       onClick={handleGoogleClick}
       className="flex w-full justify-center rounded-md bg-slate-100 px-3 py-1.5 text-sm font-semibold leading-6 text-black shadow-md hover:bg-red-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-4"
     >
-      Continue with {' '}<img className="h-6" src="/google.svg" alt="Google icon" />
+      Continue with {' '}<img className="h-6 ml-1" src="/google.svg" alt="Google icon" />
     </button>
   );
 };
