@@ -47,16 +47,16 @@ const signupUser = asyncErrorHandler(async (req, res, next) => {
 const signinUser = asyncErrorHandler(async (req, res, next) => {
   const { email, password, authType } = req.body;
 
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    const error = new Error("User not found");
-    error.statusCode = 404;
-    next(error);
-    return;
-  }
+  let user = await User.findOne({ email });
 
   if(authType === 'google'){
+    console.log('hi');
+    if(!user){
+      console.log('hi');
+      user = await User.create({
+        email
+      })
+    }
     generateToken(res, user._id);
     res.status(201).json({
       message: "user logged in successfully!",
@@ -66,6 +66,13 @@ const signinUser = asyncErrorHandler(async (req, res, next) => {
       },
     });
 
+    return;
+  }
+
+  if (!user) {
+    const error = new Error("User not found");
+    error.statusCode = 404;
+    next(error);
     return;
   }
 
