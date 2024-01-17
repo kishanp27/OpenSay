@@ -6,10 +6,10 @@ Built with the Reactjs, Nodejs, MongoDB, TypeScript, Javascript & Tailwind
 
 
 ## Features
-
-- 🛠️ Google Oauth for seemless authentication on top of JWT tokens.
-- 💻 Beautiful landing page.
+- 🛠️ Google Oauth integration for seemless authentication.
+- 💻 Fully Responsive Design.
 - 🛠️ JWT token for authentication and authorization.
+- 🎨 Beautiful landing page.
 - 🌟 Clean and modern UI
 
 ## Getting started
@@ -19,5 +19,4 @@ To get started with this project, run
 ```bash
   git clone https://github.com/despot-codA/OpenSay.git
 ```
-
 and copy the .env.example variables into a separate .env file, fill them out & and that's all you need to get started!
